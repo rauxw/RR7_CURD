@@ -55,7 +55,7 @@ export default function App() {
             Items
           </NavLink>
           <NavLink style={{ margin: "10px" }} to="/new">
-            New Items
+            New Itemsx
           </NavLink>
         </div>
       </nav>
