@@ -46,23 +46,31 @@ export default function App() {
   return (
     <>
       <nav className="bg-white shadow p-4">
-        <NavLink className="text-teal-600 text-xl font-bold" to="/">
-          Item Selection In React Router 7 CURD OPs
-        </NavLink>
-        <div className="mt-5">
-          {" "}
-          <NavLink className="m-5 text-gray-600" to="/">
-            Items
+        <div className="container mx-auto flex items-center justify-between">
+          <NavLink to="/" className="text-2xl font-bold text-indigo-600">
+            RRV7 Crud
           </NavLink>
-          <NavLink className="m-5 text-gray-600" to="/new">
-            New Items
-          </NavLink>
-          <NavLink className="m-5 text-gray-600" to="/example">
-            Example Route
-          </NavLink>
+          <div className="space-x-4">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-indigo-600" : "text-gray-600"
+              }
+            >
+              Items
+            </NavLink>
+            <NavLink
+              to="/new"
+              className={({ isActive }) =>
+                isActive ? "text-indigo-600" : "text-gray-600"
+              }
+            >
+              New Item
+            </NavLink>
+          </div>
         </div>
       </nav>
-      <main className="container mx-auto p-5">
+      <main className="container mx-auto p-4">
         <Outlet />
       </main>
     </>
