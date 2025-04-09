@@ -46,20 +46,23 @@ export default function App() {
   return (
     <>
       <nav className="bg-white shadow p-4">
-        <NavLink className="text-teal-600" to="/">
-          ITEM SELECCTION IN REACT ROUTER WITH CURD OPs
+        <NavLink className="text-teal-600 text-xl font-bold" to="/">
+          Item Selection In React Router 7 CURD OPs
         </NavLink>
         <div className="mt-5">
           {" "}
-          <NavLink style={{ margin: "10px" }} to="/">
+          <NavLink className="m-5 text-gray-600" to="/">
             Items
           </NavLink>
-          <NavLink style={{ margin: "10px" }} to="/new">
-            New Itemsx
+          <NavLink className="m-5 text-gray-600" to="/new">
+            New Items
+          </NavLink>
+          <NavLink className="m-5 text-gray-600" to="/example">
+            Example Route
           </NavLink>
         </div>
       </nav>
-      <main>
+      <main className="container mx-auto p-5">
         <Outlet />
       </main>
     </>
