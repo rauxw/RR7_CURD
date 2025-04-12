@@ -1,6 +1,17 @@
 import { supabase } from "~/supabase-client";
 import type { Route } from "./+types/item";
 import { Form, redirect, type ActionFunctionArgs } from "react-router";
+import { title } from "process";
+
+export function meta() {
+  return [
+    { title: "Edit and Update Items" },
+    {
+      name: "description",
+      content: "Manage your items and over here update and delete them",
+    },
+  ];
+}
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
