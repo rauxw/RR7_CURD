@@ -1,22 +1,22 @@
 import { supabase } from "~/supabase-client";
 import type { Route } from "./+types/item";
 import { Form, redirect, type ActionFunctionArgs } from "react-router";
-import { title } from "process";
 
-export function meta() {
+export function meta({ params }: Route.MetaArgs) {
   return [
-    { title: "Edit and Update Items" },
+    { title: `Edit Item ${params.id} | RRV7 Crud` },
     {
       name: "description",
-      content: "Manage your items and over here update and delete them",
+      content: "Edit or delete an item using our Supabase CRUD app.",
     },
   ];
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
+
   if (!id) {
-    return { error: "No Item found" };
+    return { error: "No item found." };
   }
 
   const { data, error } = await supabase
@@ -28,13 +28,14 @@ export async function loader({ params }: Route.LoaderArgs) {
   if (error) {
     return { error: error.message };
   }
+
   return { item: data };
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const title = formData.get("title") as String;
-  const description = formData.get("description") as String;
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
   const intent = formData.get("intent");
 
   if (intent === "delete") {
@@ -51,55 +52,64 @@ export async function action({ request, params }: ActionFunctionArgs) {
     if (error) {
       return { error: error.message };
     }
-    return redirect("/");
+    return { updated: true };
   }
+
   return {};
 }
 
-export default function Item({ loaderData }: Route.ComponentProps) {
-  const { item } = loaderData;
+export default function Item({ loaderData, actionData }: Route.ComponentProps) {
+  const { item, error } = loaderData;
+
   return (
-    <div>
-      <h2>Edit Items</h2>
-      <Form method="POST">
-        {" "}
-        <div className="flex flex-col items-center mb-5">
-          <label className="">Title</label>
+    <div className="max-w-md mx-auto">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Edit Item</h2>
+      {actionData?.error && (
+        <div className="bg-red-200 text-red-800 p-2 mb-4 rounded">
+          Item failed to updated
+        </div>
+      )}
+      {actionData?.updated && (
+        <div className="bg-green-200 text-green-800 p-2 mb-4 rounded">
+          Item updated successfully!
+        </div>
+      )}
+      <Form method="post" className="space-y-4 bg-white p-4 rounded shadow">
+        <div>
+          <label className="block text-gray-700">Title</label>
           <input
-            className="p-2 mt-1 mb-1 border rounded-md text-center"
-            placeholder="Enter title for product"
-            type="text"
             name="title"
+            type="text"
             defaultValue={item.title}
+            className="border border-gray-300 rounded px-3 py-2 w-full"
             required
           />
         </div>
-        <div className="flex flex-col items-center mb-5">
-          <label className="">Description </label>
+        <div>
+          <label className="block text-gray-700">Content</label>
           <textarea
-            className="p-3 m-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
-            placeholder="Enter Description for Product"
             name="description"
             defaultValue={item.description}
+            className="border border-gray-300 rounded px-3 py-2 w-full"
             required
           />
         </div>
-        <div className="flex justify-center w-full">
+        <div className="flex space-x-4">
           <button
-            className="bg-blue-500 text-blue-100 hover:bg-blue-700 hover:text-black font-bold py-2 px-4 rounded transition duration-300 m-3"
             type="submit"
-            value="update"
             name="intent"
+            value="update"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500"
           >
-            Update Item
+            Update
           </button>
           <button
-            className="bg-blue-500 text-blue-100 hover:bg-blue-700 hover:text-black font-bold py-2 px-4 rounded transition duration-300 m-3"
             type="submit"
-            value="delete"
             name="intent"
+            value="delete"
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"
           >
-            Delete Item
+            Delete
           </button>
         </div>
       </Form>
