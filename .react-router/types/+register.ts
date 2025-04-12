@@ -9,4 +9,7 @@ declare module "react-router" {
 type Params = {
   "/": {};
   "/new": {};
+  "/items/:id": {
+    "id": string;
+  };
 };

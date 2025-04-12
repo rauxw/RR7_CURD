@@ -7,7 +7,4 @@ if (!SUPABASE_URL_X || !SUPABASE_ANON_KEY_X) {
   throw new Error("Missing Supabase environment Variables");
 }
 
-console.log("SUPABASE_URL_X:", SUPABASE_URL_X);
-console.log("SUPABASE_ANON_KEY_X:", SUPABASE_ANON_KEY_X);
-
 export const supabase = createClient(SUPABASE_URL_X!, SUPABASE_ANON_KEY_X!);
